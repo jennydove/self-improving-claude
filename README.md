@@ -126,18 +126,32 @@ A monolithic `/done` command that does everything is fragile: it's hard to debug
 - Compose new commands from existing pieces
 
 ### `/today` — Start of session
-1. Pull latest config (if you're syncing to GitHub)
-2. Surface today's priorities and open tasks
-3. Flag anything that needs attention before you start
+
+Calls these sub-skills in sequence:
+
+| Sub-skill | What it does |
+|---|---|
+| Pull config | If you have a GitHub sync, pulls the latest config before anything else |
+| Surface priorities | Pulls today's tasks, flags anything due or overdue |
+| Review open commitments | Scans memory for upcoming deadlines or flags |
+| Set session context | Asks what you want to accomplish and notes any time constraints |
 
 ### `/done` — End of session
-1. Log what was accomplished
-2. Update persistent memory with anything new
-3. Identify if any ad-hoc work should become a reusable skill (`/check-for-skills`)
-4. Push config to GitHub (if you're syncing)
+
+Calls these sub-skills in sequence:
+
+| Sub-skill | What it does |
+|---|---|
+| Log session | Summarizes what was accomplished, decisions made, anything unfinished |
+| `/update-memory` | Saves new feedback, project state, or references to persistent memory |
+| `/check-for-skills` | Reviews ad-hoc work and asks: should any of this become a reusable skill? |
+| `/update-skills` | Flags improvements to any skills that were used this session |
+| Push config | If you have a GitHub sync, pushes the latest config |
+
+Each sub-skill can also be run independently outside of `/done` — you don't have to run the full wrap-up to update memory mid-session, for example.
 
 ### `/check-for-skills`
-Run mid-session or at wrap-up. Reviews what Claude did this session and asks: should any of this become a reusable slash command? This is the growth mechanism — how your skill library expands over time.
+The growth mechanism. Reviews what Claude did this session and asks: should any of this become a reusable slash command? Can be run mid-session or called automatically by `/done`.
 
 ### `/system-map`
 Generates a full map of your Claude setup: all active workspaces, CLAUDE.md files, skills, and memory state. Run this when onboarding someone, before a major audit, or any time you've lost track of what exists across your workspaces.
