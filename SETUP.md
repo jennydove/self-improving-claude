@@ -12,7 +12,7 @@ Setup is complete when:
 - [ ] `CLAUDE.md` reflects your actual project, tools, and role — no placeholder text remains
 - [ ] `memory/MEMORY.md` is wired up and loading correctly
 - [ ] `docs/standards-claude-md.md` and `docs/standards-skills.md` match your standards (or you've confirmed the defaults are fine)
-- [ ] You've run `/today` and `/done` at least once
+- [ ] You've run `/done` at least once
 - [ ] `/audit-skills` has been run and any obvious issues are noted
 
 ---
@@ -25,7 +25,7 @@ Work through these one at a time. You need the answers before editing any files.
 2. **What is Claude's role?** Should Claude make decisions independently in this context, or check in frequently? What does "good work" look like?
 3. **What tools and integrations do you use?** (e.g. Todoist, Google Calendar, Slack, Notion, GitHub) For each: any constraints or conventions Claude should know?
 4. **What's your name?** (Used in CLAUDE.md to replace `[name]` — avoids pronoun ambiguity)
-5. **Do you have a GitHub sync configured?** Should `/today` pull config and `/done` push it?
+5. **Do you have a GitHub sync configured?** Should `/done` push config at end of session?
 6. **Any conventions or "never do this" rules?** Things Claude should always or never do in this project?
 
 ---
@@ -69,19 +69,13 @@ The audits are only as good as the standards they check against.
 
 ## Step 5: Run the first session
 
-Open Claude Code in this project directory and run:
-
-```
-/today
-```
-
-Claude will surface tasks and priorities. At the end of the session, run:
+Open Claude Code in this project directory and do your work. At the end of the session, run:
 
 ```
 /done
 ```
 
-Claude will log what happened, update memory, and check for new skills.
+Claude will log what happened, update memory, check for new skills, and flag improvements to existing skills.
 
 ---
 
@@ -115,10 +109,8 @@ From here, the system runs itself with light oversight:
 
 | When | What to do |
 |---|---|
-| Start of session | `/today` |
-| End of session | `/done` |
+| End of every session | `/done` |
 | Weekly (automated) | `/audit-skills` |
 | Bi-weekly (automated) | `/audit-claude-md` |
 | After audit flags issues | `/fix-skills` or `/fix-claude-md` (manual) |
 | When something new is needed | `/check-for-skills` |
-| Lost track of what exists | `/system-map` |

@@ -1,34 +1,56 @@
-Audit all skill files in `.claude/commands/` against the 7 laws of great Claude skills.
+Audit skill files in `.claude/commands/` against the standards defined in `docs/standards-skills.md`.
+
+Run with a skill name to audit one, or run without arguments to audit all.
 
 ## Process
 
-1. **List all skill files** in `.claude/commands/`
+1. **Read `docs/standards-skills.md`** to load the current scoring rubric
 
-2. **Score each skill** against the 7 laws (see `docs/standards-skills.md`)
-   - Use the same rubric as `/audit-skill`
-   - Score each law 1–5 per skill
+2. **Identify skills to audit**
+   - If a skill name was provided, audit just that one
+   - Otherwise, list all `.md` files in `.claude/commands/` and audit each
 
-3. **Produce a summary table:**
+3. **Score each skill** against the rubric in `docs/standards-skills.md`
+   - Score each standard on the scale defined in the rubric
+   - Note the specific line or section that fails for any low score
 
+4. **Produce a report:**
+
+For a single skill:
+```
+Skill: [name]
+Overall: [score summary]
+
+[Standard 1]: [score]
+  Issue: [specific problem, if any]
+
+[Standard 2]: [score]
+  ...
+
+Top 3 improvements:
+1. [most impactful fix]
+2. [second most impactful fix]
+3. [third most impactful fix]
+```
+
+For all skills:
 ```
 Skill Audit — [date]
 
-| Skill | Score | Lowest Law | Top Issue |
-|-------|-------|------------|-----------|
-| skill-name | 28/35 | Law 3 | trigger too broad |
-| skill-name | 22/35 | Law 1 | no clear output format |
+| Skill | Score | Weakest Area | Top Issue |
+|-------|-------|--------------|-----------|
+| skill-name | [score] | [standard] | [issue] |
 ...
 
-Skills needing attention (< 28/35):
-- [skill]: [top issue]
+Skills needing attention:
 - [skill]: [top issue]
 ```
 
-4. **Recommend next steps**
-   - List skills to fix in priority order (lowest score first)
-   - Offer to run `/fix-skills` on the worst offenders
+5. **Recommend next steps**
+   - Offer to run `/fix-skills` on skills below threshold
+   - List fixes in priority order (lowest score first)
 
 ## Notes
 - This command is designed to run on a schedule (weekly or bi-weekly)
-- See `docs/standards-skills.md` for the full 7-law rubric and scoring guide
+- The scoring rubric lives in `docs/standards-skills.md` — update it there, not here
 - See README for the automation playbook — schedule this command first, before automating fixes

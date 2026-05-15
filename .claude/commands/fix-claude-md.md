@@ -9,25 +9,34 @@ Run after `/audit-claude-md`. Specify which file to fix, or fix all files with i
    - Use findings from the most recent `/audit-claude-md` run
    - If called directly without prior audit, run `/audit-claude-md` first
 
-2. **For each file to fix:**
+2. **Read `docs/standards-claude-md.md`** to understand the target structure
+
+3. **For each file to fix:**
    a. Read the current file
    b. Read the audit findings
-   c. Apply fixes:
-      - Extract long reference content to `docs/` files and replace with a pointer
-      - Update stale skill names or file paths
-      - Add missing sections (Purpose, Integrations, Skills, Ongoing Role)
-      - Trim content that doesn't belong in CLAUDE.md
-   d. Show the proposed rewrite
+   c. Apply fixes based on the standards and audit findings
+   d. Present the proposed rewrite in this format:
+
+```
+### [file path]
+**Issues addressed:** [list from audit]
+
+**Current** (relevant section):
+[old text]
+
+**Proposed:**
+[new text]
+
+**What moved where:** [if content was extracted to docs/]
+```
+
    e. Ask for approval before saving
 
-3. **After fixing:**
-   - If content was extracted to a new doc file, confirm the new file is created
+4. **After fixing:**
+   - If content was extracted to a new doc file, create the doc file first, then update CLAUDE.md
    - Re-run `/audit-claude-md` on the fixed file to confirm it passes
 
-## Important
-- The router pattern is the goal: CLAUDE.md should be short, clear, and point outward — not contain everything
+## Edge cases
+- If no audit findings exist, run `/audit-claude-md` first
+- If CLAUDE.md doesn't exist, flag it and ask whether to create one from the template
 - When extracting content to docs, create the doc file before removing content from CLAUDE.md
-- Always show changes before writing
-
-## Output format
-Side-by-side or inline diff with commentary on what moved where and why.

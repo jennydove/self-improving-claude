@@ -4,6 +4,8 @@ A system for building a Claude Code setup that gets better over time — not jus
 
 Built for product managers and operators who work with Claude daily and want a setup that meets and maintains their standards.
 
+**Scope note:** This is currently designed for an individual's Claude setup with very specific personal preferences and workflows. A future goal is making this compatible with shared team setups, but right now it assumes one person managing their own system.
+
 ---
 
 ## The Problem
@@ -34,21 +36,19 @@ There are two distinct rhythms in this system. Understanding the difference betw
 
 ### The session loop — runs every time you work with Claude
 
-Every session starts with `/today` and ends with `/done`. These are orchestrators: each one calls a series of focused sub-skills in sequence.
+Every session ends with `/done`. This is an orchestrator: it calls a series of focused sub-skills in sequence.
 
 `/done` is where the micro self-improvement happens. At the end of every session, Claude logs what was accomplished, updates persistent memory with anything new, checks whether any ad-hoc work should become a reusable skill, and flags improvements to existing skills. These are small, incremental updates — the system getting 1% better each time.
 
 ```
-/today
-  └── surface priorities, open tasks, flags
-
 ... do your work ...
 
 /done
-  ├── log what happened
+  ├── log what happened (/ai-log)
   ├── update memory
   ├── check for new skills to create
-  └── flag skill improvements
+  ├── flag skill improvements
+  └── push config (if GitHub sync)
 ```
 
 ### The quality loop — runs on a slower cadence (weekly / bi-weekly)
@@ -85,11 +85,10 @@ Documents that define what "good" looks like for your setup. These live in `docs
 ### 2. Audits
 Commands that check your setup against your standards and surface what's drifted.
 
-| Command            | What it checks                                |
-| ------------------ | --------------------------------------------- |
-| `/audit-skill`     | A single skill file against the standards     |
-| `/audit-skills`    | All skill files at once against the standards |
-| `/audit-claude-md` | Your CLAUDE.md files against the standards    |
+| Command | What it checks |
+|---|---|
+| `/audit-skills` | One or all skill files against `docs/standards-skills.md` |
+| `/audit-claude-md` | Your CLAUDE.md files against `docs/standards-claude-md.md` |
 
 ### 3. Fixes + Updates
 Commands that act on audit findings and keep the system current.
@@ -104,37 +103,25 @@ Commands that act on audit findings and keep the system current.
 | `/update-config` | Updates `settings.json` hooks and automation |
 
 ### 4. Growth
-Commands that expand and map the system — not fixing what exists, but adding to it and understanding it.
+Commands that expand the system — not fixing what exists, but adding to it.
 
 | Command | What it does |
 |---|---|
 | `/check-for-skills` | Reviews the session and identifies ad-hoc work that should become a reusable skill |
-| `/system-map` | Generates a full map of all workspaces, CLAUDE.md files, skills, and memory state |
 
 ---
 
 ## Session Commands
 
-Two orchestrators bookend every working session. These are **not** monolithic commands — each one calls a set of focused sub-skills in sequence.
+`/done` is the key orchestrator — it runs at the end of every session and calls focused sub-skills in sequence. It is **not** a monolithic command; each step is an independent skill that can run on its own.
 
 ### Why sub-skills instead of one big command?
 
-A monolithic `/done` command that does everything is fragile: it's hard to debug, hard to update one piece without breaking others, and hard to reuse any part of it independently. Sub-skills let you:
+A monolithic `/done` that does everything is fragile: hard to debug, hard to update one piece without breaking others, and hard to reuse any part independently. Sub-skills let you:
 - Run just one step if that's all you need
 - Update one piece without touching the others
 - Understand at a glance what each step does
-- Compose new commands from existing pieces
-
-### `/today` — Start of session
-
-Calls these sub-skills in sequence:
-
-| Sub-skill | What it does |
-|---|---|
-| Pull config | If you have a GitHub sync, pulls the latest config before anything else |
-| Surface priorities | Pulls today's tasks, flags anything due or overdue |
-| Review open commitments | Scans memory for upcoming deadlines or flags |
-| Set session context | Asks what you want to accomplish and notes any time constraints |
+- Compose new orchestrators from existing pieces
 
 ### `/done` — End of session
 
@@ -142,7 +129,7 @@ Calls these sub-skills in sequence:
 
 | Sub-skill | What it does |
 |---|---|
-| Log session | Summarizes what was accomplished, decisions made, anything unfinished |
+| `/ai-log` | Writes a session activity log entry (optional — skipped if not configured) |
 | `/update-memory` | Saves new feedback, project state, or references to persistent memory |
 | `/check-for-skills` | Reviews ad-hoc work and asks: should any of this become a reusable skill? |
 | `/update-skills` | Flags improvements to any skills that were used this session |
@@ -152,9 +139,6 @@ Each sub-skill can also be run independently outside of `/done` — you don't ha
 
 ### `/check-for-skills`
 The growth mechanism. Reviews what Claude did this session and asks: should any of this become a reusable slash command? Can be run mid-session or called automatically by `/done`.
-
-### `/system-map`
-Generates a full map of your Claude setup: all active workspaces, CLAUDE.md files, skills, and memory state. Run this when onboarding someone, before a major audit, or any time you've lost track of what exists across your workspaces.
 
 ---
 
@@ -187,7 +171,7 @@ The memory system is what makes improvement persist. Without it, audits and fixe
 Automation should be turned on once you feel confident the system works for you. I recommend you follow this staged rollout:
 
 ### Stage 1: Manual everything (Week 1–2)
-Run `/today`, `/done`, audits, and fixes by hand. Learn what they produce. Adjust your standards docs and skill files until the output feels right.
+Run `/done`, audits, and fixes by hand. Learn what they produce. Adjust your standards docs and skill files until the output feels right.
 
 ### Stage 2: Schedule audits (Week 3+)
 Once audits are producing accurate, useful output, schedule them to run automatically. Use Claude Code's built-in `/schedule` skill:
@@ -211,7 +195,7 @@ Only after the audit output has been consistently accurate for several weeks sho
 3. **Edit `docs/standards-claude-md.md`** — keep as-is or adapt
 4. **Edit `docs/standards-skills.md`** — keep as-is or adapt
 5. **Create your first memory files** — look at `memory/examples/` for the format
-6. **Run `/today` to start a session, `/done` to end it**
+6. **Run `/done` at the end of your first session**
 7. **Run `/audit-skills` and `/audit-claude-md` after your first week**
 8. **Schedule audits once output looks right**
 
@@ -226,12 +210,10 @@ Only after the audit output has been consistently accurate for several weeks sho
 ├── .claude/
 │   ├── settings.json                  # hooks + scheduled automation
 │   └── commands/
-│       ├── today.md                   # start-of-session orchestrator
 │       ├── done.md                    # end-of-session orchestrator
+│       ├── ai-log.md                  # session activity log (optional)
 │       ├── check-for-skills.md        # identify new skills from session work
-│       ├── system-map.md              # map all workspaces, CLAUDE.md files, and skills
-│       ├── audit-skill.md             # audit a single skill
-│       ├── audit-skills.md            # audit all skills
+│       ├── audit-skills.md            # audit one or all skills
 │       ├── fix-skills.md              # fix skills that failed audit
 │       ├── audit-claude-md.md         # audit CLAUDE.md files
 │       ├── fix-claude-md.md           # fix CLAUDE.md structural issues

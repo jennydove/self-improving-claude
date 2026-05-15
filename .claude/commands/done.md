@@ -4,8 +4,9 @@ This is an orchestrator — it calls a focused set of sub-skills in sequence. Ea
 
 ## Steps
 
-1. **Log what was accomplished**
-   - Summarize the work done this session in 3–5 bullet points
+1. **Log what was accomplished** (`/ai-log`, if it exists)
+   - If `/ai-log` is configured, write a session log entry
+   - If not, summarize the work done this session in 3–5 bullet points inline
    - Note any decisions made and the reasoning behind them
    - Flag anything that was started but not finished
 

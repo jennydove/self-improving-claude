@@ -19,11 +19,10 @@ Claude should follow the structural standards defined in:
 ## Skills
 [List the slash commands available in this project. Users invoke these by typing the command.]
 
-- `/today` — start-of-session routine
 - `/done` — end-of-session wrap-up
+- `/ai-log` — write a session activity log entry (optional, called by `/done`)
 - `/check-for-skills` — identify ad-hoc work that should become a reusable skill
-- `/audit-skill` — audit a single skill file against the 7 laws
-- `/audit-skills` — audit all skill files
+- `/audit-skills` — audit one or all skill files against standards
 - `/fix-skills` — fix skills that failed the audit
 - `/audit-claude-md` — check CLAUDE.md files for structural issues
 - `/fix-claude-md` — fix CLAUDE.md structural issues
@@ -31,7 +30,6 @@ Claude should follow the structural standards defined in:
 - `/update-claude-md` — update CLAUDE.md when workflow changes
 - `/update-memory` — prune and update persistent memory
 - `/update-config` — update settings.json hooks and automation
-- `/system-map` — generate a map of all workspaces, CLAUDE.md files, and skills
 
 ## Conventions
 [Add any project-specific conventions Claude should follow. Examples:]

@@ -1,24 +1,25 @@
-Fix skill files that failed the audit, based on findings from `/audit-skill` or `/audit-skills`.
+Fix skill files that failed the audit, based on findings from `/audit-skills`.
 
 ## Usage
-Run after `/audit-skill` or `/audit-skills`. Specify which skills to fix, or fix all skills that scored below threshold.
+Run after `/audit-skills`. Specify which skills to fix, or fix all skills below threshold.
 
 ## Process
 
 1. **Identify skills to fix**
-   - If coming from `/audit-skills`, use the list of skills below threshold (< 28/35)
-   - If coming from `/audit-skill`, fix the single skill reviewed
-   - If called directly, run `/audit-skills` first to get current scores
+   - Use the findings from the most recent `/audit-skills` run
+   - If called directly without a prior audit, run `/audit-skills` first
 
-2. **For each skill to fix:**
+2. **Read `docs/standards-skills.md`** to understand what "good" looks like
+
+3. **For each skill to fix:**
    a. Read the current skill file
    b. Read the audit findings for that skill
    c. Rewrite the skill addressing the top issues
    d. Show the diff and explain what changed and why
    e. Ask for approval before saving
 
-3. **After all fixes:**
-   - Re-run `/audit-skill` on each fixed skill to confirm scores improved
+4. **After all fixes:**
+   - Re-run `/audit-skills [skill-name]` on each fixed skill to confirm scores improved
    - Update `CLAUDE.md` skills list if any skill names or descriptions changed
 
 ## Important
