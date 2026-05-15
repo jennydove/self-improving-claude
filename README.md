@@ -34,16 +34,16 @@ This repo gives you the scaffolding for that loop. Fork it, fill in your standar
 Documents that define what "good" looks like for your setup. These live in `docs/` and are referenced by your CLAUDE.md and audit commands.
 
 - `docs/standards-claude-md.md` — what a healthy CLAUDE.md looks like
-- `docs/standards-skills.md` — what a well-structured skill looks like (the 7 laws)
+- `docs/standards-skills.md` — what a well-structured skill looks like
 
 ### 2. Audits
 Commands that check your setup against your standards and surface what's drifted.
 
-| Command | What it checks |
-|---|---|
-| `/audit-skill` | A single skill file against the 7 laws |
-| `/audit-skills` | All skill files at once |
-| `/audit-claude-md` | Your CLAUDE.md files for structural issues |
+| Command            | What it checks                                |
+| ------------------ | --------------------------------------------- |
+| `/audit-skill`     | A single skill file against the standards     |
+| `/audit-skills`    | All skill files at once against the standards |
+| `/audit-claude-md` | Your CLAUDE.md files against the standards    |
 
 ### 3. Fixes + Updates
 Commands that act on audit findings and keep the system current.
@@ -56,6 +56,14 @@ Commands that act on audit findings and keep the system current.
 | `/update-claude-md` | Updates CLAUDE.md when your workflow changes |
 | `/update-memory` | Prunes and updates persistent memory |
 | `/update-config` | Updates `settings.json` hooks and automation |
+
+### 4. Growth
+Commands that expand and map the system — not fixing what exists, but adding to it and understanding it.
+
+| Command | What it does |
+|---|---|
+| `/check-for-skills` | Reviews the session and identifies ad-hoc work that should become a reusable skill |
+| `/system-map` | Generates a full map of all workspaces, CLAUDE.md files, skills, and memory state |
 
 ---
 
