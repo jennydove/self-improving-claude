@@ -184,10 +184,10 @@ The memory system is what makes improvement persist. Without it, audits and fixe
 
 ## Automation Playbook
 
-Automation should be earned, not assumed. Follow this staged rollout:
+Automation should be turned on once you feel confident the system works for you. I recommend you follow this staged rollout:
 
 ### Stage 1: Manual everything (Week 1–2)
-Run `/today`, `/done`, and audits by hand. Learn what they produce. Adjust your standards docs and skill files until the output feels right.
+Run `/today`, `/done`, audits, and fixes by hand. Learn what they produce. Adjust your standards docs and skill files until the output feels right.
 
 ### Stage 2: Schedule audits (Week 3+)
 Once audits are producing accurate, useful output, schedule them to run automatically. Use Claude Code's built-in `/schedule` skill:
@@ -207,9 +207,9 @@ Only after the audit output has been consistently accurate for several weeks sho
 ## Quick Start
 
 1. **Fork this repo**
-2. **Edit `CLAUDE.md`** — fill in your actual project context, goals, and integrations
-3. **Edit `docs/standards-claude-md.md`** — define what good looks like for your setup
-4. **Edit `docs/standards-skills.md`** — keep or adapt the 7 laws
+2. **Edit `CLAUDE.md`** — fill in your actual project context, goals, and integrations (or use an existing one and add in the key pieces from this)
+3. **Edit `docs/standards-claude-md.md`** — keep as-is or adapt
+4. **Edit `docs/standards-skills.md`** — keep as-is or adapt
 5. **Create your first memory files** — look at `memory/examples/` for the format
 6. **Run `/today` to start a session, `/done` to end it**
 7. **Run `/audit-skills` and `/audit-claude-md` after your first week**
@@ -255,4 +255,4 @@ Only after the audit output has been consistently accurate for several weeks sho
 
 ## Credits
 
-The 7 laws of great Claude skills come from Aakash Gupta's research: [Claude Skills: The 7 Laws from 75 Tests](https://www.aibyaakash.com/p/claude-skills-7-laws).
+The Claude skills standards come from Aakash Gupta's research: [Claude Skills: The 7 Laws from 75 Tests](https://www.aibyaakash.com/p/claude-skills-7-laws).

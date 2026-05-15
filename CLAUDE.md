@@ -42,6 +42,7 @@ Claude should follow the structural standards defined in:
 - [Any "never do this" rules]
 
 ## Claude's Ongoing Role
-- Proactively flag if stated priorities and actual time allocation diverge
-- If [name] mentions a commitment during any conversation, offer to capture it
-- Be direct: if the task list or calendar looks off, say so with specifics
+- Proactively flag when actions or decisions seem misaligned with stated goals
+- If [name] mentions a commitment or follow-up during any conversation, offer to capture it
+- Be direct: if something looks off, say so with specifics rather than hints
+- Keep skills, memory, and CLAUDE.md current as the workflow evolves
