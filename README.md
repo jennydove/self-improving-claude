@@ -28,7 +28,53 @@ This repo gives you the scaffolding for that loop. Fork it, fill in your standar
 
 ---
 
-## The Three Layers
+## How It All Connects
+
+There are two distinct rhythms in this system. Understanding the difference between them is the key to making it work.
+
+### The session loop — runs every time you work with Claude
+
+Every session starts with `/today` and ends with `/done`. These are orchestrators: each one calls a series of focused sub-skills in sequence.
+
+`/done` is where the micro self-improvement happens. At the end of every session, Claude logs what was accomplished, updates persistent memory with anything new, checks whether any ad-hoc work should become a reusable skill, and flags improvements to existing skills. These are small, incremental updates — the system getting 1% better each time.
+
+```
+/today
+  └── surface priorities, open tasks, flags
+
+... do your work ...
+
+/done
+  ├── log what happened
+  ├── update memory
+  ├── check for new skills to create
+  └── flag skill improvements
+```
+
+### The quality loop — runs on a slower cadence (weekly / bi-weekly)
+
+Separate from the daily session loop, audits run on a schedule to check that the system itself is still at standard. Are the skill files well-structured? Is CLAUDE.md accurate and clean? Has anything drifted?
+
+This is a macro check — not "what happened today" but "is the system healthy." It runs on a slower cadence because it's checking accumulated drift, not session-level changes.
+
+```
+/audit-skills        ← weekly
+/audit-claude-md     ← bi-weekly
+
+  └── findings → /fix-skills or /fix-claude-md (manual, you review first)
+```
+
+### Why two loops instead of one?
+
+The session loop is fast and lightweight — it runs every time, so it has to be. It catches things that just happened.
+
+The quality loop is thorough and slower — it checks everything against your standards, not just what changed today. Running it every session would be noisy and expensive. Running it never means drift goes undetected.
+
+Together they compound: the session loop keeps Claude current, the quality loop keeps the system at standard.
+
+---
+
+## The Four Layers
 
 ### 1. Standards
 Documents that define what "good" looks like for your setup. These live in `docs/` and are referenced by your CLAUDE.md and audit commands.
